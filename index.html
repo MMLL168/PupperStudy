@@ -19,6 +19,7 @@
             --accent-orange: #ff9800;
             --accent-red: #f44336;
             --shadow: 0 4px 20px rgba(0,0,0,0.5);
+            --sidebar-width: 280px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -31,20 +32,151 @@
             overflow-x: hidden;
         }
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        /* ===== LEFT SIDEBAR ===== */
+        .left-sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: var(--bg-card);
+            border-right: 1px solid var(--border);
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
 
+        .left-sidebar-header {
+            padding: 20px 16px 14px;
+            background: linear-gradient(135deg, var(--accent-blue), #1565c0);
+            flex-shrink: 0;
+        }
+
+        .left-sidebar-header h3 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 0.5px;
+        }
+
+        .left-sidebar-header small {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.75rem;
+        }
+
+        .left-sidebar-nav {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px 0;
+        }
+
+        .left-sidebar-nav::-webkit-scrollbar { width: 4px; }
+        .left-sidebar-nav::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 16px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.82rem;
+            border-left: 3px solid transparent;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            color: var(--accent-blue);
+            border-left-color: var(--accent-blue);
+            background: rgba(33,150,243,0.08);
+        }
+
+        .nav-item .nav-icon { font-size: 1rem; width: 20px; text-align: center; flex-shrink: 0; }
+        .nav-item .nav-text { flex: 1; line-height: 1.3; }
+        .nav-item .nav-badge {
+            font-size: 0.6rem;
+            background: var(--accent-orange);
+            color: #000;
+            padding: 1px 5px;
+            border-radius: 8px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .nav-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 6px 12px;
+        }
+
+        .nav-group-label {
+            padding: 8px 16px 4px;
+            font-size: 0.68rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        /* ===== MAIN LAYOUT ===== */
+        .main-wrapper {
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+            transition: margin-left 0.3s ease;
+        }
+
+        .progress-container {
+            position: sticky;
+            top: 0;
+            background: var(--bg-primary);
+            padding: 8px 0;
+            z-index: 100;
+        }
+
+        .progress-bar { height: 3px; background: var(--border); }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
+            width: 0%;
+            transition: width 0.2s ease;
+        }
+
+        /* Mobile toggle */
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            top: 14px;
+            left: 14px;
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            cursor: pointer;
+            z-index: 300;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+
+        /* Header */
         .header {
             text-align: center;
-            padding: 40px 20px;
+            padding: 36px 20px;
             background: linear-gradient(135deg, var(--bg-card) 0%, #2a2a2a 100%);
             border-radius: 20px;
-            margin-bottom: 40px;
+            margin-bottom: 36px;
             box-shadow: var(--shadow);
             border: 1px solid var(--border);
         }
 
         .header h1 {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             background: linear-gradient(135deg, var(--accent-blue), var(--accent-green));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -55,18 +187,19 @@
 
         .header-meta {
             display: flex;
-            justify-content: space-around;
+            justify-content: center;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 16px;
             margin-top: 20px;
         }
 
         .meta-item {
             background: var(--bg-hover);
-            padding: 12px 24px;
+            padding: 10px 20px;
             border-radius: 12px;
             border: 1px solid var(--border);
             transition: all 0.3s ease;
+            text-align: center;
         }
 
         .meta-item:hover {
@@ -75,74 +208,45 @@
             box-shadow: 0 8px 25px rgba(33,150,243,0.3);
         }
 
-        .toc {
-            background: var(--bg-card);
-            padding: 30px;
-            border-radius: 16px;
-            margin-bottom: 40px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-        }
-
-        .toc h2 { color: var(--accent-blue); margin-bottom: 20px; font-size: 1.5rem; }
-        .toc ul { list-style: none; }
-
-        .toc a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            display: block;
-            padding: 8px 0 8px 20px;
-            border-left: 3px solid transparent;
-            transition: all 0.3s ease;
-        }
-
-        .toc a:hover {
-            color: var(--accent-blue);
-            border-left-color: var(--accent-blue);
-            background: var(--bg-hover);
-            padding-left: 25px;
-        }
-
+        /* Sections */
         .section {
             background: var(--bg-card);
-            margin-bottom: 30px;
+            margin-bottom: 28px;
             border-radius: 16px;
-            padding: 30px;
+            padding: 28px;
             box-shadow: var(--shadow);
             border: 1px solid var(--border);
             opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 0.6s ease forwards;
+            transform: translateY(20px);
+            animation: fadeInUp 0.5s ease forwards;
         }
 
-        .section:nth-child(even) { animation-delay: 0.1s; }
-
-        @keyframes fadeInUp {
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeInUp { to { opacity:1; transform:translateY(0); } }
 
         .section h2 {
             color: var(--accent-blue);
-            font-size: 1.8rem;
-            margin-bottom: 20px;
+            font-size: 1.6rem;
+            margin-bottom: 18px;
             display: flex;
             align-items: center;
             gap: 10px;
+            flex-wrap: wrap;
         }
 
-        .section h3 { color: var(--accent-green); font-size: 1.4rem; margin: 25px 0 15px 0; }
-        .section h4 { color: var(--text-accent); font-size: 1.2rem; margin: 20px 0 10px 0; }
+        .section h3 { color: var(--accent-green); font-size: 1.25rem; margin: 22px 0 12px 0; }
+        .section h4 { color: var(--text-accent); font-size: 1.1rem; margin: 18px 0 8px 0; }
 
+        /* Cards */
         .card-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 20px;
-            margin: 25px 0;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 18px;
+            margin: 20px 0;
         }
 
         .card {
             background: var(--bg-secondary);
-            padding: 25px;
+            padding: 22px;
             border-radius: 12px;
             border: 1px solid var(--border);
             transition: all 0.3s ease;
@@ -154,800 +258,535 @@
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0;
-            height: 4px;
+            height: 3px;
             background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
         }
 
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
-            border-color: var(--accent-blue);
-        }
+        .card:hover { transform: translateY(-4px); box-shadow: 0 12px 35px rgba(0,0,0,0.5); border-color: var(--accent-blue); }
+        .card-title { font-size: 1.1rem; font-weight: 600; color: var(--accent-blue); margin-bottom: 12px; }
+        .card ul { padding-left: 16px; margin-top: 8px; }
+        .card ul li { margin-bottom: 5px; }
 
-        .card-title { font-size: 1.3rem; font-weight: 600; color: var(--accent-blue); margin-bottom: 15px; }
-
-        .card ul { padding-left: 16px; margin-top: 10px; }
-        .card ul li { margin-bottom: 6px; }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            background: var(--bg-secondary);
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-        }
-
-        th, td { padding: 15px 12px; text-align: left; border-bottom: 1px solid var(--border); }
-
-        th {
-            background: linear-gradient(135deg, var(--accent-blue), #1976d2);
-            color: white;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
+        /* Tables */
+        table { width: 100%; border-collapse: collapse; margin: 18px 0; background: var(--bg-secondary); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        th, td { padding: 12px 10px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.88rem; }
+        th { background: linear-gradient(135deg, var(--accent-blue), #1976d2); color: white; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
         tr:hover { background: var(--bg-hover); }
         tr:last-child td { border-bottom: none; }
 
-        .checklist {
-            background: var(--bg-secondary);
-            padding: 20px;
-            border-radius: 12px;
-            border-left: 5px solid var(--accent-green);
-        }
+        /* Checklist */
+        .checklist { background: var(--bg-secondary); padding: 18px; border-radius: 12px; border-left: 5px solid var(--accent-green); }
+        .checklist-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; padding: 6px 0; }
+        .checklist-item input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--accent-green); margin-top: 2px; flex-shrink: 0; }
 
-        .checklist-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            margin-bottom: 12px;
-            padding: 8px 0;
-        }
+        /* Code */
+        pre { background: #1e1e1e; padding: 18px; border-radius: 12px; overflow-x: auto; border: 1px solid #333; margin: 18px 0; font-size: 0.83rem; line-height: 1.6; }
+        pre code { background: transparent; padding: 0; color: #a8ff78; font-family: 'Consolas', 'Monaco', monospace; }
+        code { background: #2d2d2d; padding: 2px 6px; border-radius: 4px; font-family: 'Consolas', monospace; color: var(--accent-green); font-size: 0.88em; }
 
-        .checklist-item input[type="checkbox"] {
-            width: 20px; height: 20px;
-            accent-color: var(--accent-green);
-            margin-top: 2px;
-            flex-shrink: 0;
-        }
-
-        pre {
-            background: #1e1e1e;
-            padding: 20px;
-            border-radius: 12px;
-            overflow-x: auto;
-            border: 1px solid #333;
-            margin: 20px 0;
-            font-size: 0.88rem;
-            line-height: 1.5;
-        }
-
-        pre code {
-            background: transparent;
-            padding: 0;
-            color: #a8ff78;
-            font-family: 'Consolas', 'Monaco', monospace;
-        }
-
-        code {
-            background: #2d2d2d;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: 'Consolas', monospace;
-            color: var(--accent-green);
-        }
-
-        .sidebar {
-            position: fixed;
-            top: 0; right: -350px;
-            width: 350px; height: 100vh;
-            background: var(--bg-card);
-            backdrop-filter: blur(20px);
-            border-left: 1px solid var(--border);
-            transition: right 0.3s ease;
-            z-index: 1000;
-            padding: 20px;
-            overflow-y: auto;
-        }
-
-        .sidebar.active { right: 0; }
-
-        .sidebar-toggle {
-            position: fixed;
-            top: 20px; right: 20px;
-            background: var(--accent-blue);
-            color: white;
-            border: none;
-            padding: 15px 20px;
-            border-radius: 50px;
-            cursor: pointer;
-            z-index: 1001;
-            font-size: 1.1rem;
-            box-shadow: var(--shadow);
-            transition: all 0.3s ease;
-        }
-
-        .sidebar-toggle:hover { background: #1976d2; transform: scale(1.05); }
-
-        .close-sidebar {
-            background: var(--accent-red);
-            width: 40px; height: 40px;
-            border-radius: 50%;
-            border: none;
-            color: white;
-            cursor: pointer;
-            margin-bottom: 20px;
-            font-size: 1.2rem;
-        }
-
-        .progress-container {
-            position: sticky; top: 0;
-            background: var(--bg-primary);
-            padding: 10px 0;
-            z-index: 100;
-        }
-
-        .progress-bar {
-            height: 4px;
-            background: var(--border);
-            border-radius: 2px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-left: 8px;
-        }
-
-        .badge-new { background: var(--accent-orange); color: #000; }
-        .badge-green { background: var(--accent-green); color: #000; }
-
+        /* Arch box */
         .arch-box {
             background: #1e1e1e;
             border: 1px solid var(--accent-blue);
             border-radius: 12px;
-            padding: 20px;
-            margin: 20px 0;
-            font-family: 'Consolas', monospace;
-            font-size: 0.85rem;
+            padding: 18px;
+            margin: 18px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.83rem;
             line-height: 1.8;
             color: #a8ff78;
             overflow-x: auto;
+            white-space: pre;
         }
 
-        @media (max-width: 768px) {
-            .header h1 { font-size: 2rem; }
-            .card-grid { grid-template-columns: 1fr; }
-            .sidebar { width: 100%; right: -100%; }
-            table { font-size: 0.9rem; }
-            th, td { padding: 10px 8px; }
-        }
+        /* Badge */
+        .badge { display: inline-block; padding: 2px 9px; border-radius: 20px; font-size: 0.72rem; font-weight: 700; margin-left: 8px; vertical-align: middle; }
+        .badge-new { background: var(--accent-orange); color: #000; }
+        .badge-green { background: var(--accent-green); color: #000; }
 
-        ::-webkit-scrollbar { width: 8px; }
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: var(--bg-secondary); }
-        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--accent-blue); }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .left-sidebar { transform: translateX(-100%); }
+            .left-sidebar.open { transform: translateX(0); }
+            .main-wrapper { margin-left: 0; }
+            .sidebar-toggle { display: flex; align-items: center; justify-content: center; }
+            .header h1 { font-size: 1.7rem; }
+            .card-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
 
-<div class="progress-container">
-    <div class="progress-bar">
-        <div class="progress-fill" id="progressFill"></div>
+<!-- Mobile Toggle -->
+<button class="sidebar-toggle" id="mobileToggle" onclick="toggleMobileSidebar()">☰</button>
+
+<!-- LEFT SIDEBAR -->
+<nav class="left-sidebar" id="leftSidebar">
+    <div class="left-sidebar-header">
+        <h3>🚀 評估報告 v3.0</h3>
+        <small>開源四足機器狗商用化</small>
     </div>
-</div>
+    <div class="left-sidebar-nav" id="sidebarNav">
+        <!-- 由 JS 動態生成 -->
+    </div>
+</nav>
 
-<button class="sidebar-toggle" onclick="toggleSidebar()">📋 導覽</button>
-
-<div class="sidebar" id="sidebar">
-    <button class="close-sidebar" onclick="toggleSidebar()">×</button>
-    <div id="tocContent"></div>
-</div>
-
-<div class="container">
-
-    <!-- Header -->
-    <div class="header">
-        <h1>🚀 開源四足機器狗商用化評估報告</h1>
-        <div class="header-meta">
-            <div class="meta-item"><strong>v2.0</strong><br><small>文件版本</small></div>
-            <div class="meta-item"><strong>2026-02-25</strong><br><small>更新日期</small></div>
-            <div class="meta-item"><strong>私人工作室</strong><br><small>目標對象</small></div>
-            <div class="meta-item"><strong>NT$ 200萬</strong><br><small>初期投資</small></div>
-        </div>
+<!-- MAIN CONTENT -->
+<div class="main-wrapper">
+    <div class="progress-container">
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
     </div>
 
-    <!-- TOC -->
-    <div class="toc" id="tableOfContents">
-        <h2>📖 內容目錄</h2>
-        <ul id="tocList"></ul>
-    </div>
+    <div class="container">
 
-    <!-- Section 1: Background -->
-    <section id="background" class="section">
-        <h2>🎯 專案背景與目標</h2>
-        <div class="card-grid">
-            <div class="card">
-                <div class="card-title">🏢 工作室背景</div>
-                <ul>
-                    <li><strong>技術能力：</strong>STM32、ESP32、Arduino 開發，ROS + AIOT 整合</li>
-                    <li><strong>目標定位：</strong>從開源四足機器狗 → 商用產品</li>
-                    <li><strong>團隊規模：</strong>私人工作室（小型專業團隊）</li>
-                </ul>
-            </div>
-            <div class="card">
-                <div class="card-title">🎯 核心訴求</div>
-                <ul>
-                    <li>尋找授權友善的開源基底專案</li>
-                    <li>建立自主可控的硬體與韌體平台</li>
-                    <li>規劃可量產、可維護的商用產品線</li>
-                </ul>
+        <!-- Header -->
+        <div class="header">
+            <h1>🚀 開源四足機器狗商用化評估報告</h1>
+            <div class="header-meta">
+                <div class="meta-item"><strong>v3.0</strong><br><small>文件版本</small></div>
+                <div class="meta-item"><strong>2026-02-25</strong><br><small>更新日期</small></div>
+                <div class="meta-item"><strong>私人工作室</strong><br><small>目標對象</small></div>
+                <div class="meta-item"><strong>NT$ 200萬</strong><br><small>初期投資</small></div>
             </div>
         </div>
-    </section>
 
-    <!-- Section 2: Grading -->
-    <section id="grading" class="section">
-        <h2>📊 技術分級與選型</h2>
-        <h3>分級標準</h3>
-        <table>
-            <thead>
-                <tr><th>級別</th><th>控制方式</th><th>成本範圍</th><th>適用場景</th></tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong>教育/玩具級</strong></td>
-                    <td>Arduino、Raspberry Pi、舵機</td>
-                    <td>&lt; $500</td>
-                    <td>STEM 教育、愛好者</td>
-                </tr>
-                <tr>
-                    <td><strong>DIY/研究級</strong></td>
-                    <td>ROS、力矩控制、自製機構</td>
-                    <td>$1,500–$3,000</td>
-                    <td>學術研究、高性能控制</td>
-                </tr>
-                <tr>
-                    <td><strong>商用級</strong></td>
-                    <td>工業級控制、認證與售後</td>
-                    <td>&gt; $5,000</td>
-                    <td>實際應用場景</td>
-                </tr>
-            </tbody>
-        </table>
-        <div style="background: rgba(76,175,80,0.15); padding: 20px; border-radius: 12px; margin: 20px 0; border-left: 5px solid var(--accent-green);">
-            <strong>✅ 建議切入點：</strong>從「DIY/研究級」作為技術基底
-            <ul style="padding-left:16px; margin-top:8px;">
-                <li>控制架構成熟，有學術論文支撐</li>
-                <li>硬體設計開放，可自行改良</li>
-                <li>性能足以支撐商用場景需求</li>
-                <li><strong>授權條款友善商業化</strong></li>
-            </ul>
-        </div>
-    </section>
+        <!-- 1. Background -->
+        <section id="background" class="section">
+            <h2>🎯 專案背景與目標</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-title">🏢 工作室背景</div>
+                    <ul>
+                        <li><strong>技術能力：</strong>STM32、ESP32、Arduino，ROS + AIOT 整合</li>
+                        <li><strong>目標定位：</strong>從開源四足機器狗 → 商用產品</li>
+                        <li><strong>團隊規模：</strong>私人工作室（小型專業團隊）</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="card-title">🎯 核心訴求</div>
+                    <ul>
+                        <li>尋找授權友善的開源基底專案</li>
+                        <li>建立自主可控的硬體與韌體平台</li>
+                        <li>規劃可量產、可維護的商用產品線</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
 
-    <!-- Section 3: Projects -->
-    <section id="projects" class="section">
-        <h2>🔬 DIY/研究級開源專案分析</h2>
-        <div class="card-grid">
-            <div class="card">
-                <div class="card-title">🐕 Stanford Doggo</div>
-                <div><strong>GitHub：</strong><a href="https://github.com/Nate711/StanfordDoggoProject" target="_blank" style="color:var(--accent-blue);">Nate711/StanfordDoggoProject</a></div>
-                <div><strong>授權：</strong><span style="color:var(--accent-green);">MIT License</span></div>
-                <div><strong>成本：</strong>&lt; $3,000 USD</div>
-                <div><strong>商用適用性：</strong>⭐⭐⭐⭐⭐</div>
-                <ul>
-                    <li>無刷伺服力矩控制，準直驅關節</li>
-                    <li>完整 CAD、韌體、控制程式開源</li>
-                    <li>控制邏輯可移植到 <strong>STM32</strong></li>
-                </ul>
-            </div>
-            <div class="card">
-                <div class="card-title">🐶 Stanford Pupper</div>
-                <div><strong>GitHub：</strong><a href="https://github.com/stanfordroboticsclub/StanfordQuadruped" target="_blank" style="color:var(--accent-blue);">stanfordroboticsclub/StanfordQuadruped</a></div>
-                <div><strong>授權：</strong><span style="color:var(--accent-green);">MIT License</span></div>
-                <div><strong>成本：</strong>&lt; $2,000 USD，8小時組裝</div>
-                <div><strong>商用適用性：</strong>⭐⭐⭐⭐⭐</div>
-                <ul>
-                    <li>最適合第一台力矩控制四足平台</li>
-                    <li>易於擴展感測器與 <strong>ROS2</strong></li>
-                    <li>性價比高，適合教育市場</li>
-                </ul>
-            </div>
-        </div>
-        <div class="card-grid">
-            <div class="card">
-                <div class="card-title">🔧 ODRI Solo12</div>
-                <div><strong>授權：</strong><span style="color:var(--accent-green);">BSD-3-Clause</span></div>
-                <div><strong>商用適用性：</strong>⭐⭐⭐⭐</div>
-                <ul>
-                    <li>12個模組化扭矩控制致動器</li>
-                    <li>支援深度強化學習 (RL)</li>
-                    <li>模組化設計利於產品線擴展</li>
-                </ul>
-            </div>
-            <div class="card">
-                <div class="card-title">🦘 MIT Cheetah</div>
-                <div><strong>GitHub：</strong><a href="https://github.com/mit-biomimetics/Cheetah-Software" target="_blank" style="color:var(--accent-blue);">mit-biomimetics/Cheetah-Software</a></div>
-                <div><strong>商用適用性：</strong>⭐⭐⭐</div>
-                <ul>
-                    <li>完整控制框架，論文支持</li>
-                    <li>適合已有硬體基礎的團隊</li>
-                    <li>高階 gait/controller 架構成熟</li>
-                </ul>
-            </div>
-        </div>
-    </section>
+        <!-- 2. Grading -->
+        <section id="grading" class="section">
+            <h2>📊 技術分級與選型</h2>
+            <table>
+                <thead><tr><th>級別</th><th>控制方式</th><th>成本範圍</th><th>適用場景</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>教育/玩具級</strong></td><td>Arduino、Raspberry Pi、舵機</td><td>&lt; $500</td><td>STEM 教育、愛好者</td></tr>
+                    <tr style="background:rgba(76,175,80,0.1)"><td><strong>DIY/研究級 ✅</strong></td><td>ROS、力矩控制、自製機構</td><td>$1,500–$3,000</td><td>學術研究、高性能控制</td></tr>
+                    <tr><td><strong>商用級</strong></td><td>工業級控制、認證與售後</td><td>&gt; $5,000</td><td>實際應用場景</td></tr>
+                </tbody>
+            </table>
+        </section>
 
-    <!-- Section 4: License -->
-    <section id="license" class="section">
-        <h2>⚖️ 授權與商用合規性</h2>
-        <h3>MIT License vs BSD-3-Clause</h3>
-        <table>
-            <thead>
-                <tr><th>授權</th><th>商用自由度</th><th>保留要求</th><th>背書限制</th><th>適合你嗎？</th></tr>
-            </thead>
-            <tbody>
-                <tr style="background:rgba(76,175,80,0.1);">
-                    <td><strong>MIT</strong></td><td>⭐⭐⭐⭐⭐</td><td>版權+授權文字</td><td>無明文</td><td>✅ <strong>首選</strong></td>
-                </tr>
-                <tr style="background:rgba(76,175,80,0.1);">
-                    <td><strong>BSD-3-Clause</strong></td><td>⭐⭐⭐⭐⭐</td><td>版權+授權文字</td><td>明確禁止</td><td>✅ 也很好</td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="checklist">
-            <h4>📋 授權合規檢查清單</h4>
-            <div class="checklist-item">
-                <input type="checkbox" id="license1">
-                <label for="license1">保留原專案的 LICENSE 檔案</label>
+        <!-- 3. Projects -->
+        <section id="projects" class="section">
+            <h2>🔬 DIY/研究級開源專案分析</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-title">🐕 Stanford Doggo</div>
+                    <div><strong>授權：</strong><span style="color:var(--accent-green)">MIT License</span> &nbsp; <strong>成本：</strong>&lt; $3,000 USD</div>
+                    <ul><li>無刷伺服力矩控制，準直驅關節</li><li>完整 CAD、韌體、控制程式開源</li><li>控制邏輯可移植到 <strong>STM32</strong></li></ul>
+                </div>
+                <div class="card">
+                    <div class="card-title">🐶 Stanford Pupper</div>
+                    <div><strong>授權：</strong><span style="color:var(--accent-green)">MIT License</span> &nbsp; <strong>成本：</strong>&lt; $2,000 USD</div>
+                    <ul><li>最適合第一台力矩控制四足平台</li><li>易於擴展感測器與 <strong>ROS2</strong></li><li>性價比高，適合教育市場</li></ul>
+                </div>
+                <div class="card">
+                    <div class="card-title">🔧 ODRI Solo12</div>
+                    <div><strong>授權：</strong><span style="color:var(--accent-green)">BSD-3-Clause</span></div>
+                    <ul><li>12個模組化扭矩控制致動器</li><li>支援深度強化學習 (RL)</li><li>模組化設計利於產品線擴展</li></ul>
+                </div>
+                <div class="card">
+                    <div class="card-title">🦘 MIT Cheetah</div>
+                    <div><strong>授權：</strong>開源</div>
+                    <ul><li>完整控制框架，論文支持</li><li>高階 gait/controller 架構成熟</li></ul>
+                </div>
             </div>
-            <div class="checklist-item">
-                <input type="checkbox" id="license2">
-                <label for="license2">在產品文件加入「開源聲明」章節</label>
-            </div>
-            <div class="checklist-item">
-                <input type="checkbox" id="license3">
-                <label for="license3">避免使用「Stanford 認證」等暗示背書用語</label>
-            </div>
-            <div class="checklist-item">
-                <input type="checkbox" id="license4">
-                <label for="license4">建立 NOTICE/CREDITS 檔案列出所有開源專案</label>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Section 5: Products -->
-    <section id="products" class="section">
-        <h2>💼 商用產品線策略</h2>
-        <h3>三階段產品規劃</h3>
-        <div class="card-grid">
-            <div class="card">
-                <div class="card-title">📚 第一階段：教學/Maker 版</div>
-                <div><strong>目標客戶：</strong>大學、高職、創客空間</div>
-                <div><strong>售價：</strong>NT$ 15,000–30,000</div>
-                <ul>
-                    <li>完整教學課程與實驗手冊</li>
-                    <li>模組化設計，易於擴展</li>
-                    <li>提供 Python/ROS 範例程式</li>
-                </ul>
+        <!-- 4. License -->
+        <section id="license" class="section">
+            <h2>⚖️ 授權與商用合規性</h2>
+            <table>
+                <thead><tr><th>授權</th><th>商用自由度</th><th>保留要求</th><th>背書限制</th><th>適合？</th></tr></thead>
+                <tbody>
+                    <tr style="background:rgba(76,175,80,0.1)"><td><strong>MIT</strong></td><td>⭐⭐⭐⭐⭐</td><td>版權+授權文字</td><td>無明文</td><td>✅ 首選</td></tr>
+                    <tr style="background:rgba(76,175,80,0.1)"><td><strong>BSD-3-Clause</strong></td><td>⭐⭐⭐⭐⭐</td><td>版權+授權文字</td><td>明確禁止</td><td>✅ 也很好</td></tr>
+                </tbody>
+            </table>
+            <div class="checklist">
+                <h4>📋 授權合規檢查清單</h4>
+                <div class="checklist-item"><input type="checkbox" id="license1"><label for="license1">保留原專案的 LICENSE 檔案</label></div>
+                <div class="checklist-item"><input type="checkbox" id="license2"><label for="license2">在產品文件加入「開源聲明」章節</label></div>
+                <div class="checklist-item"><input type="checkbox" id="license3"><label for="license3">避免使用「Stanford 認證」等暗示背書用語</label></div>
+                <div class="checklist-item"><input type="checkbox" id="license4"><label for="license4">建立 NOTICE/CREDITS 檔案列出所有開源專案</label></div>
             </div>
-            <div class="card">
-                <div class="card-title">🔬 第二階段：研究版</div>
-                <div><strong>目標客戶：</strong>研究單位、實驗室</div>
-                <div><strong>售價：</strong>NT$ 80,000–150,000</div>
-                <ul>
-                    <li>開放 API 與完整文檔</li>
-                    <li>支援 RL 訓練與 MPC 控制</li>
-                    <li>可客製化硬體與韌體</li>
-                </ul>
-            </div>
-        </div>
-        <div class="card-grid">
-            <div class="card">
-                <div class="card-title">🏭 第三階段：應用整合版</div>
-                <div><strong>目標客戶：</strong>企業應用場景</div>
-                <div><strong>售價：</strong>NT$ 300,000+</div>
-                <ul>
-                    <li>廠區巡檢、安防巡邏</li>
-                    <li>雲端管理 + 任務編排</li>
-                    <li>完整售後維運支援</li>
-                </ul>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Section 6: Tech -->
-    <section id="tech" class="section">
-        <h2>⚙️ 技術路線建議</h2>
-        <h3>硬體架構設計</h3>
-        <div class="arch-box">
-┌─────────────────────────────────────────┐
+        <!-- 5. Products -->
+        <section id="products" class="section">
+            <h2>💼 商用產品線策略</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-title">📚 第一階段：教學/Maker 版</div>
+                    <div><strong>目標：</strong>大學、高職、創客空間 &nbsp; <strong>售價：</strong>NT$15,000–30,000</div>
+                    <ul><li>完整教學課程與實驗手冊</li><li>提供 Python/ROS 範例程式</li></ul>
+                </div>
+                <div class="card">
+                    <div class="card-title">🔬 第二階段：研究版</div>
+                    <div><strong>目標：</strong>研究單位、實驗室 &nbsp; <strong>售價：</strong>NT$80,000–150,000</div>
+                    <ul><li>開放 API + 完整文檔</li><li>支援 RL 訓練與 MPC 控制</li></ul>
+                </div>
+                <div class="card">
+                    <div class="card-title">🏭 第三階段：應用整合版</div>
+                    <div><strong>目標：</strong>企業應用場景 &nbsp; <strong>售價：</strong>NT$300,000+</div>
+                    <ul><li>廠區巡檢、安防巡邏</li><li>雲端管理 + 任務編排</li></ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Tech Architecture -->
+        <section id="tech" class="section">
+            <h2>⚙️ 技術路線建議</h2>
+            <h3>三層硬體架構</h3>
+            <div class="arch-box">┌─────────────────────────────────────────┐
 │   上位機 Raspberry Pi 5                  │  ← ROS2 + AI 視覺 (YOLO)
-│   • 步態規劃 • SLAM • RL 決策            │
+│   步態規劃 / SLAM / RL 決策              │
 └───────────────────┬─────────────────────┘
                     │ UART / USB (50Hz)
 ┌───────────────────▼─────────────────────┐
 │   運動控制板 STM32H743VIT6               │  ← 1ms 即時步態 + IMU 融合
-│   • 步態產生 • 狀態估測 • CAN 主控       │
+│   步態產生 / 狀態估測 / CAN 主控         │
 └───────────────────┬─────────────────────┘
                     │ CAN Bus 1Mbps
 ┌───────────────────▼─────────────────────┐
-│   關節驅動板 x12  STM32G474              │  ← FOC 扭矩控制 (10kHz)
-│   + L6398 閘極驅動 + AS5047P 編碼器     │
-└─────────────────────────────────────────┘
-                    ↓
-           36V 5000mAh LiPo + BMS</div>
+│   關節驅動板 x12  STM32G431/G474         │  ← FOC 扭矩控制 (10kHz)
+│   + 閘極驅動 + AS5047P 磁性編碼器        │
+└─────────────────────────────────────────┘</div>
+            <h3>開源借鑑清單</h3>
+            <table>
+                <thead><tr><th>專案</th><th>借鑑內容</th><th>用途</th></tr></thead>
+                <tbody>
+                    <tr><td>Doggo</td><td>狀態機架構、步態演算法</td><td>控制核心</td></tr>
+                    <tr><td>Pupper</td><td>硬體配置、教學文件</td><td>產品設計</td></tr>
+                    <tr><td>Solo12</td><td>模組化致動器、CAN 協定</td><td>硬體模組</td></tr>
+                </tbody>
+            </table>
+        </section>
 
-        <h3>開源專案借鑑清單</h3>
-        <table>
-            <thead>
-                <tr><th>專案</th><th>借鑑內容</th><th>用途</th></tr>
-            </thead>
-            <tbody>
-                <tr><td>Doggo</td><td>狀態機架構、步態演算法</td><td>控制核心</td></tr>
-                <tr><td>Pupper</td><td>硬體配置、教學文件</td><td>產品設計</td></tr>
-                <tr><td>Solo12</td><td>模組化致動器、CAN 協定</td><td>硬體模組</td></tr>
-            </tbody>
-        </table>
-    </section>
-
-    <!-- Section 7: ST Upgrade (NEW) -->
-    <section id="st-upgrade" class="section">
-        <h2>🔧 Pupper v3 → ST MCU 升級方案 <span class="badge badge-new">NEW</span></h2>
-
-        <h3>完整架構替換對照</h3>
-        <table>
-            <thead>
-                <tr><th>層級</th><th>原 Pupper v3</th><th>ST 升級版</th><th>替換</th><th>成本變化</th><th>性能提升</th></tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong>主控 CPU</strong></td>
-                    <td>RPi4B 4GB</td>
-                    <td><strong>RPi5 8GB</strong></td>
-                    <td>🔄</td>
-                    <td>+NT$1,000</td>
-                    <td>AI算力 +3x</td>
-                </tr>
-                <tr>
-                    <td><strong>運動控制</strong></td>
-                    <td>Pi GPIO PWM (10ms)</td>
-                    <td><strong>STM32H743 (1ms)</strong></td>
-                    <td>🔄</td>
-                    <td>+NT$1,800</td>
-                    <td>即時性 +10x</td>
-                </tr>
-                <tr>
-                    <td><strong>關節驅動</strong></td>
-                    <td>無獨立 MCU</td>
-                    <td><strong>STM32G474 x12</strong></td>
-                    <td>🆕 選配</td>
-                    <td>+NT$8,160</td>
-                    <td>診斷 + CAN</td>
-                </tr>
-                <tr style="background: rgba(76,175,80,0.1);">
-                    <td><strong>馬達 x12</strong></td>
-                    <td><strong>JX CLS6336HV</strong></td>
-                    <td><strong>JX CLS6336HV</strong></td>
-                    <td>✅ 保留</td>
-                    <td>0</td>
-                    <td>0</td>
-                </tr>
-                <tr>
-                    <td><strong>通訊</strong></td>
-                    <td>GPIO 12條線</td>
-                    <td><strong>H743 TIM / CAN</strong></td>
-                    <td>🔄</td>
-                    <td>0</td>
-                    <td>整潔 +佈線</td>
-                </tr>
-                <tr>
-                    <td><strong>電源</strong></td>
-                    <td>12V 3S LiPo</td>
-                    <td>12V (PWM) / 36V (FOC)</td>
-                    <td>🔄 依方案</td>
-                    <td>+NT$0/4,000</td>
-                    <td>續航 +100%</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <h3>方案 A vs 方案 B</h3>
-        <div class="card-grid">
-            <div class="card">
-                <div class="card-title">✅ 方案 A：H743 PWM 版（推薦起點）</div>
-                <ul>
-                    <li>RPi5 + STM32H743 主控板</li>
-                    <li>H743 TIM3~8 → 12x JX 伺服</li>
-                    <li>保留原始伺服馬達與機構</li>
-                    <li>成本：<strong>NT$22,300</strong></li>
-                    <li>完成時間：<strong>1 週</strong></li>
-                </ul>
-            </div>
-            <div class="card">
-                <div class="card-title">🏭 方案 B：H743 + G474 CAN 版（商用）</div>
-                <ul>
-                    <li>H743 主控 → CAN → G474 x12</li>
-                    <li>CANopen DS402 協定</li>
-                    <li>每關節診斷（溫度/扭矩/錯誤）</li>
-                    <li>成本：<strong>NT$30,460</strong></li>
-                    <li>完成時間：<strong>3 週</strong></li>
-                </ul>
-            </div>
-        </div>
-
-        <h3>H743 PWM 設定（方案 A）</h3>
-        <pre><code>// STM32H743 CubeMX 設定
+        <!-- 7. ST MCU Upgrade -->
+        <section id="st-upgrade" class="section">
+            <h2>🔧 Pupper v3 → ST MCU 升級方案 <span class="badge badge-new">NEW</span></h2>
+            <h3>架構替換對照</h3>
+            <table>
+                <thead><tr><th>層級</th><th>原 Pupper v3</th><th>ST 升級版</th><th>成本變化</th><th>性能提升</th></tr></thead>
+                <tbody>
+                    <tr><td>主控 CPU</td><td>RPi4B 4GB</td><td><strong>RPi5 8GB</strong></td><td>+NT$1,000</td><td>AI算力 +3x</td></tr>
+                    <tr><td>運動控制</td><td>Pi GPIO PWM (10ms)</td><td><strong>STM32H743 (1ms)</strong></td><td>+NT$1,800</td><td>即時性 +10x</td></tr>
+                    <tr><td>關節驅動</td><td>無獨立 MCU</td><td><strong>STM32G431/G474 x12</strong></td><td>+NT$3,360</td><td>CAN + 診斷</td></tr>
+                    <tr style="background:rgba(76,175,80,0.1)"><td><strong>馬達 x12</strong></td><td><strong>JX CLS6336HV</strong></td><td><strong>JX CLS6336HV</strong></td><td>NT$0（保留）</td><td>—</td></tr>
+                </tbody>
+            </table>
+            <h3>方案 A：H743 PWM 版（推薦起點）</h3>
+            <pre><code>// STM32H743 CubeMX 設定
 TIM3~TIM8：PWM Generation CH1~CH4
 PSC：719    // 72MHz / 720 = 100kHz
 ARR：1999   // 100kHz / 2000 = 50Hz (20ms)
-
-// 角度 → CCR 轉換
-// -90° → CCR=50 (0.5ms)
-//   0° → CCR=150 (1.5ms)
-// +90° → CCR=250 (2.5ms)
 
 void SetServoAngle(TIM_HandleTypeDef *htim, uint32_t ch, float angle_deg) {
     uint32_t ccr = 50 + (uint32_t)((angle_deg + 90.0f) / 180.0f * 200.0f);
     __HAL_TIM_SET_COMPARE(htim, ch, ccr);
 }</code></pre>
+        </section>
 
-        <h3>CANopen DS402 協定（方案 B）</h3>
-        <pre><code>// H743 → G474 指令封包 (PDO1 Tx, 1ms)
-// CAN ID: 0x200 + NodeID (0x211~0x234)
-// Byte[0-3]: Target_Position (float32, rad)
-// Byte[4-5]: Kp_Gain (uint16)
-// Byte[6]:   Mode (0=Pos, 1=Vel, 2=Torque)
-// Byte[7]:   Enable (1=on)
+        <!-- 8. BOM -->
+        <section id="bom" class="section">
+            <h2>💰 BOM 成本明細</h2>
+            <table>
+                <thead><tr><th>項目</th><th>原 Pupper</th><th>方案 A（H743 PWM）</th><th>方案 B（G474 CAN）</th></tr></thead>
+                <tbody>
+                    <tr><td>RPi</td><td>NT$2,500</td><td>NT$3,500</td><td>NT$3,500</td></tr>
+                    <tr><td>H743 主控板</td><td>—</td><td>NT$1,800</td><td>NT$1,800</td></tr>
+                    <tr style="background:rgba(76,175,80,0.1)"><td><strong>JX CLS6336HV x12</strong></td><td><strong>NT$10,800</strong></td><td><strong>NT$10,800</strong></td><td><strong>NT$10,800</strong></td></tr>
+                    <tr><td>G431/G474 x12</td><td>—</td><td>—</td><td>NT$3,360–8,160</td></tr>
+                    <tr><td>電源/機構</td><td>NT$7,000</td><td>NT$6,200</td><td>NT$6,200</td></tr>
+                    <tr style="font-weight:bold; background:rgba(33,150,243,0.15)"><td><strong>總計</strong></td><td><strong>NT$20,300</strong></td><td><strong>NT$22,300</strong></td><td><strong>NT$25,660+</strong></td></tr>
+                </tbody>
+            </table>
+        </section>
 
-// G474 → H743 狀態封包 (PDO1 Rx, 1ms)
-// CAN ID: 0x300 + NodeID
-// Byte[0-3]: Actual_Position (float32)
-// Byte[4-5]: Actual_Torque (uint16)
-// Byte[6]:   Temperature (°C)
-// Byte[7]:   Error_Code (0=OK)</code></pre>
+        <!-- 9. Roadmap -->
+        <section id="roadmap" class="section">
+            <h2>🗺️ 12個月實作 Roadmap</h2>
+            <div class="checklist">
+                <div class="checklist-item"><input type="checkbox" id="road1"><label for="road1">Week 1：G431 + SimpleFOC 單軸 FOC 驗證</label></div>
+                <div class="checklist-item"><input type="checkbox" id="road2"><label for="road2">Week 2：H743 + CAN 主從通訊測試</label></div>
+                <div class="checklist-item"><input type="checkbox" id="road3"><label for="road3">Week 3：RPi5 + H743 UART 橋接 + ROS2</label></div>
+                <div class="checklist-item"><input type="checkbox" id="road4"><label for="road4">Month 2：機械手臂 6 軸 FOC Demo</label></div>
+                <div class="checklist-item"><input type="checkbox" id="road5"><label for="road5">Month 3–5：機器狗原型（複用手臂程式碼）</label></div>
+                <div class="checklist-item"><input type="checkbox" id="road6"><label for="road6">Month 6+：合體版（移動機械手臂）</label></div>
+            </div>
+            <h3>財務預測</h3>
+            <table>
+                <thead><tr><th>階段</th><th>投資</th><th>里程碑</th></tr></thead>
+                <tbody>
+                    <tr><td>0–9個月</td><td>NT$1,200,000</td><td>10台測試機</td></tr>
+                    <tr><td>9–12個月</td><td>NT$800,000</td><td>首次銷售</td></tr>
+                    <tr style="font-weight:bold; background:rgba(76,175,80,0.2)"><td><strong>總計</strong></td><td><strong>NT$2,000,000</strong></td><td><strong>損益平衡：80台</strong></td></tr>
+                </tbody>
+            </table>
+        </section>
 
-        <h3>RPi5 ↔ H743 通訊</h3>
-        <pre><code># RPi5 Python (ROS2 Node) → H743 UART
-import serial, struct
-ser = serial.Serial('/dev/ttyACM0', 115200)
+        <!-- 10. Risks -->
+        <section id="risks" class="section">
+            <h2>⚠️ 風險評估</h2>
+            <table>
+                <thead><tr><th>風險項目</th><th>等級</th><th>緩解措施</th></tr></thead>
+                <tbody>
+                    <tr><td>市場接受度低</td><td>⚠️ 高</td><td>從實驗室市場切入，累積案例</td></tr>
+                    <tr><td>力矩控制穩定性</td><td>⚠️ 中</td><td>先用 H743 PWM 伺服驗證，再升 FOC</td></tr>
+                    <tr><td>售後成本過高</td><td>⚠️ 中</td><td>G431 模組化設計利於維修</td></tr>
+                    <tr><td>Pi 即時性不足</td><td>⚠️ 中</td><td>H743 MCU 分擔即時控制任務</td></tr>
+                </tbody>
+            </table>
+        </section>
 
-def send_velocity_cmd(x_vel, y_vel, yaw_rate, gait=1):
-    pkt = struct.pack('&lt;BBfffB', 0xAA, 15, x_vel, y_vel, yaw_rate, gait)
-    ser.write(pkt)
+        <!-- 11. Arm Strategy -->
+        <section id="arm-strategy" class="section">
+            <h2>🦾 機械手臂研發策略 <span class="badge badge-new">NEW</span></h2>
+            <div style="background:linear-gradient(135deg,rgba(33,150,243,0.15),rgba(76,175,80,0.15));padding:20px;border-radius:14px;border-left:5px solid var(--accent-green);margin-bottom:20px;">
+                <strong style="color:var(--accent-green);">✅ 結論：機械手臂先，機器狗後！</strong><br>
+                <span style="color:var(--text-secondary)">機械手臂是機器狗的「子集合」—— H743 + G431 所有程式碼、CAN架構、FOC調參，100% 帶進機器狗！</span>
+            </div>
+            <div class="card-grid">
+                <div class="card"><div class="card-title">🛡️ 技術風險低</div><ul><li>固定底座 → 不會跌倒壞零件</li><li>Debug 難度 ⭐⭐⭐ vs 機器狗 ⭐⭐⭐⭐⭐</li><li>失敗成本：NT$3,000 vs NT$20,000+</li></ul></div>
+                <div class="card"><div class="card-title">♻️ 硬體 100% 複用</div><ul><li>H743 主控板設計完全相同</li><li>G431 關節板機器狗多做 6 片</li><li>CAN 通訊、FreeRTOS 架構完全相同</li></ul></div>
+                <div class="card"><div class="card-title">💰 商業變現更快</div><ul><li>開發期：<strong>4–6 週</strong>可出 Demo</li><li>高職/大學：NT$80k–150k</li><li>SME 工廠自動化：NT$150k–300k</li></ul></div>
+                <div class="card"><div class="card-title">🎯 最終合體產品</div><ul><li>手臂完成（Month 2）+ 機器狗（Month 5）</li><li>→ 移動式機械手臂（Month 6+）</li><li>→ 台灣市場唯一性，NT$500,000+</li></ul></div>
+            </div>
+        </section>
 
-// H743 FreeRTOS UART 接收任務
-void UART_Task(void *pvParameters) {
-    uint8_t rx_buf[32];
-    while(1) {
-        if (HAL_UART_Receive(&huart3, rx_buf, 17, 10) == HAL_OK) {
-            if (rx_buf[0] == 0xAA) {
-                float x_vel = *(float*)(rx_buf + 2);
-                float y_vel = *(float*)(rx_buf + 6);
-                GenerateGaitTrajectory(x_vel, y_vel);
-            }
-        }
-        vTaskDelay(pdMS_TO_TICKS(10));
-    }
-}</code></pre>
+        <!-- 12. Arm Selection -->
+        <section id="arm-selection" class="section">
+            <h2>🛒 飆機器人手臂選型 <span class="badge badge-new">NEW</span></h2>
+            <h3>H743 + G431 替換難易度排行</h3>
+            <table>
+                <thead><tr><th>排名</th><th>型號</th><th>原廠MCU</th><th>替換難度</th><th>H743主控</th><th>G431關節</th><th>建議</th></tr></thead>
+                <tbody>
+                    <tr style="background:rgba(76,175,80,0.15)"><td>🥇</td><td><strong>uHand 2.0 STM32版</strong></td><td>STM32（同系列）</td><td>⭐</td><td>✅ 直接換</td><td>✅ 可加</td><td><strong>最推薦</strong></td></tr>
+                    <tr style="background:rgba(76,175,80,0.1)"><td>🥈</td><td><strong>uArm 4軸</strong></td><td>STM32</td><td>⭐</td><td>✅ 直接換</td><td>✅ 步進換FOC</td><td>推薦</td></tr>
+                    <tr><td>🥉</td><td>ultraArm 3軸</td><td>STM32</td><td>⭐⭐</td><td>✅ 可換</td><td>⚠️ 有限</td><td>入門可</td></tr>
+                    <tr><td>4</td><td>myCobot / mechArm</td><td>ESP32</td><td>⭐⭐⭐</td><td>✅ 主控可換</td><td>❌ 關節不行</td><td>參考用</td></tr>
+                    <tr style="background:rgba(244,67,54,0.08)"><td>5–6</td><td>Lite6 / xArm 6</td><td>工業ARM（閉源）</td><td>⭐⭐⭐⭐⭐</td><td>❌</td><td>❌</td><td>不建議替換</td></tr>
+                </tbody>
+            </table>
+            <div class="card-grid">
+                <div class="card"><div class="card-title">Step 1：買 uArm（NT$15,000）</div><ul><li>STM32 主控 → 直接換 H743</li><li>步進馬達 → 換 BLDC + G431 FOC</li><li>機構現成，省 2 週設計時間</li><li>UART TTL / G-Code 協定開放</li></ul></div>
+                <div class="card"><div class="card-title">Step 2：加購 uHand 2.0</div><ul><li>原廠 STM32 → 換 H743 最自然</li><li>仿人手掌 → 差異化末端效果器</li><li>體感手套控制 → 二次開發潛力高</li><li>手臂 + 手掌 = 完整商用產品！</li></ul></div>
+            </div>
+        </section>
 
-        <h3>GitHub 程式碼移植清單</h3>
-        <table>
-            <thead>
-                <tr><th>原 Python 檔案</th><th>H743 C 等價</th><th>移植難度</th><th>週期</th></tr>
-            </thead>
-            <tbody>
-                <tr><td>gait_scheduler.py</td><td>GaitTask() FreeRTOS</td><td>⭐⭐</td><td>1ms</td></tr>
-                <tr><td>leg_controllers.py</td><td>Stance/Swing PID</td><td>⭐⭐⭐</td><td>1ms</td></tr>
-                <tr><td>inverse_kinematics.py</td><td>IK_Solve() FPU</td><td>⭐</td><td>1ms</td></tr>
-                <tr><td>pupper.py (GPIO)</td><td>HAL_TIM_SetCompare</td><td>⭐</td><td>10ms</td></tr>
-                <tr><td>joystick.py</td><td>Pi5 WebSocket App</td><td>⭐⭐</td><td>100ms</td></tr>
-            </tbody>
-        </table>
-    </section>
-
-    <!-- Section 8: BOM Cost (NEW) -->
-    <section id="bom" class="section">
-        <h2>💰 BOM 成本明細 <span class="badge badge-new">NEW</span></h2>
-
-        <h3>整機成本比較</h3>
-        <table>
-            <thead>
-                <tr><th>項目</th><th>原 Pupper</th><th>方案 A（H743 PWM）</th><th>方案 B（G474 CAN）</th></tr>
-            </thead>
-            <tbody>
-                <tr><td>RPi</td><td>NT$2,500</td><td>NT$3,500</td><td>NT$3,500</td></tr>
-                <tr><td>H743 主控板</td><td>–</td><td>NT$1,800</td><td>NT$1,800</td></tr>
-                <tr style="background:rgba(76,175,80,0.1);"><td><strong>JX CLS6336HV x12</strong></td><td><strong>NT$10,800</strong></td><td><strong>NT$10,800</strong></td><td><strong>NT$10,800</strong></td></tr>
-                <tr><td>G474 x12</td><td>–</td><td>–</td><td>NT$8,160</td></tr>
-                <tr><td>電源/機構</td><td>NT$7,000</td><td>NT$6,200</td><td>NT$6,200</td></tr>
-                <tr style="font-weight:bold; background:rgba(33,150,243,0.15);"><td><strong>總計</strong></td><td><strong>NT$20,300</strong></td><td><strong>NT$22,300</strong></td><td><strong>NT$30,460</strong></td></tr>
-                <tr><td>量產優化</td><td>NT$17,000</td><td>NT$15,000</td><td>NT$20,000</td></tr>
-            </tbody>
-        </table>
-
-        <h3>採購建議</h3>
-        <div class="card-grid">
-            <div class="card">
-                <div class="card-title">🛒 JX CLS6336HV x12</div>
-                <ul>
-                    <li>Shopee：NT$900/個 → <strong>NT$10,800</strong></li>
-                    <li>AliExpress：$25/個（含運約 NT$1,000）</li>
-                    <li>35kg·cm @ 7.4V，金屬齒輪</li>
+        <!-- 13. FOC Motor -->
+        <section id="foc-motor" class="section">
+            <h2>⚡ FOC BLDC vs 傳統馬達 <span class="badge badge-new">NEW</span></h2>
+            <div style="background:rgba(255,152,0,0.12);padding:18px;border-radius:12px;border-left:5px solid var(--accent-orange);margin-bottom:18px;">
+                <strong>🔑 核心觀念：「伺服馬達」不是一種馬達，是一種控制方式！</strong><br>
+                <span style="color:var(--text-secondary)">BLDC + FOC + 編碼器 = 就是「無刷伺服馬達」。高階 Cobot 用的「伺服」全部都是 BLDC + FOC！</span>
+            </div>
+            <table>
+                <thead><tr><th>項目</th><th>步進馬達</th><th>RC 伺服(PWM)</th><th>BLDC + FOC ✅</th></tr></thead>
+                <tbody>
+                    <tr><td>扭矩精度</td><td>中（可能失步）</td><td>中</td><td style="color:var(--accent-green)"><strong>最高 ⭐</strong></td></tr>
+                    <tr><td>碰撞偵測</td><td style="color:var(--accent-red)">❌ 無</td><td style="color:var(--accent-red)">❌ 無</td><td style="color:var(--accent-green)"><strong>✅ 電流推算</strong></td></tr>
+                    <tr><td>效率 / 發熱</td><td>低（發熱大）</td><td>中</td><td style="color:var(--accent-green)"><strong>高效率</strong></td></tr>
+                    <tr><td>低速平滑度</td><td>抖動</td><td>抖動</td><td style="color:var(--accent-green)"><strong>極平滑</strong></td></tr>
+                    <tr><td>代表品牌</td><td>Dorna（舊技術）</td><td>Petoi、玩具</td><td style="color:var(--accent-green)"><strong>UR、xArm、Lite6</strong></td></tr>
+                </tbody>
+            </table>
+            <div style="background:#1e1e1e;padding:18px;border-radius:12px;border-left:5px solid var(--accent-green);margin-top:16px;">
+                <strong style="color:var(--accent-green);">✅ 你的 H743 + G431 FOC 路線 = Cobot 協作手臂等級</strong>
+                <ul style="padding-left:16px;margin-top:8px;">
+                    <li>業界主流：UR、xArm 全部都是 BLDC + FOC</li>
+                    <li>碰撞偵測（電流 → 扭矩推算）= 商用安全必要條件</li>
+                    <li>步進馬達手臂（Dorna 等）= 舊技術路線，你已超越！</li>
                 </ul>
             </div>
-            <div class="card">
-                <div class="card-title">🛒 STM32H743 元件</div>
-                <ul>
-                    <li>DigiKey STM32H743VIT6：NT$650</li>
-                    <li>BMI088 IMU：NT$500</li>
-                    <li>JLCPCB 4層板：NT$1,200</li>
-                </ul>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Section 9: Roadmap -->
-    <section id="roadmap" class="section">
-        <h2>🗺️ 12個月實作 Roadmap</h2>
-        <h3>Phase 1：技術驗證（0–3個月）</h3>
-        <div class="checklist">
-            <div class="checklist-item">
-                <input type="checkbox" id="road1">
-                <label for="road1">方案 A：H743 PWM + JX 伺服 → 第一台站立行走</label>
+        <!-- 14. xArm OpenSource -->
+        <section id="xarm-opensource" class="section">
+            <h2>🔓 xArm 開源程式碼應用 <span class="badge badge-new">NEW</span></h2>
+            <div style="background:rgba(76,175,80,0.1);padding:14px;border-radius:10px;margin-bottom:16px;border-left:5px solid var(--accent-green);">
+                <strong>授權：BSD-3-Clause ✅ 可商業使用 / 可修改 / 不需開放修改後原始碼</strong>
             </div>
-            <div class="checklist-item">
-                <input type="checkbox" id="road2">
-                <label for="road2">基本 Trot 步態（移植 gait_scheduler）</label>
-            </div>
-            <div class="checklist-item">
-                <input type="checkbox" id="road3">
-                <label for="road3">RPi5 + H743 UART 橋接 + ROS2 遠端控制</label>
-            </div>
-            <div class="checklist-item">
-                <input type="checkbox" id="road4">
-                <label for="road4">方案 B：G474 CAN 關節板 + CANopen DS402</label>
-            </div>
-            <div class="checklist-item">
-                <input type="checkbox" id="road5">
-                <label for="road5">Month 3：FOC 升級（G474 + 無刷馬達）</label>
-            </div>
-        </div>
+            <table>
+                <thead><tr><th>Repository</th><th>用途</th><th>你能直接用的</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>xArm-Python-SDK</strong></td><td>RPi5 上位機控制 API</td><td>完整控制邏輯，直接跑</td></tr>
+                    <tr style="background:rgba(33,150,243,0.1)"><td><strong>xarm_description (URDF)</strong></td><td>3D 模型</td><td>Gazebo 仿真，零硬體成本驗證 IK</td></tr>
+                    <tr style="background:rgba(33,150,243,0.1)"><td><strong>xarm_moveit_config</strong></td><td>MoveIt2 設定</td><td>換成你的 H743 硬體介面即可</td></tr>
+                    <tr><td><strong>xarm_ros2</strong></td><td>ROS2 完整包</td><td>軌跡規劃 + 控制器</td></tr>
+                    <tr><td><strong>xarm_controller</strong></td><td>關節控制器</td><td>移植邏輯到 H743 FreeRTOS</td></tr>
+                </tbody>
+            </table>
+            <pre><code># Clone xArm ROS2（Ubuntu 22.04 + ROS2 Humble）
+cd ~/dev_ws/src
+git clone https://github.com/xArm-Developer/xarm_ros2.git --recursive -b $ROS_DISTRO
 
-        <h3>財務預測</h3>
-        <table>
-            <thead>
-                <tr><th>階段</th><th>投資</th><th>里程碑</th></tr>
-            </thead>
-            <tbody>
-                <tr><td>0–9個月</td><td>NT$ 1,200,000</td><td>10台測試機</td></tr>
-                <tr><td>9–12個月</td><td>NT$ 800,000</td><td>首次銷售</td></tr>
-                <tr style="font-weight:bold; background:rgba(76,175,80,0.2);">
-                    <td><strong>總計</strong></td><td><strong>NT$ 2,000,000</strong></td><td><strong>損益平衡：80台</strong></td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
+# Python SDK 快速測試（RPi5）
+from xarm.wrapper import XArmAPI
+arm = XArmAPI('192.168.1.xxx')
+arm.motion_enable(enable=True)
+arm.set_mode(0)    # 位置模式
+arm.set_state(0)   # 運動狀態
+arm.move_gohome()  # 回原點</code></pre>
+        </section>
 
-    <!-- Section 10: Risks -->
-    <section id="risks" class="section">
-        <h2>⚠️ 風險評估與建議</h2>
-        <table>
-            <thead>
-                <tr><th>風險項目</th><th>風險等級</th><th>緩解措施</th></tr>
-            </thead>
-            <tbody>
-                <tr><td>市場接受度低</td><td>⚠️ 高</td><td>從實驗室市場切入，累積案例</td></tr>
-                <tr><td>力矩控制穩定性</td><td>⚠️ 中</td><td>先用 H743 PWM 伺服驗證，再升 FOC</td></tr>
-                <tr><td>售後成本過高</td><td>⚠️ 中</td><td>G474 模組化設計利於維修</td></tr>
-                <tr><td>Pi 即時性不足</td><td>⚠️ 中</td><td>H743 MCU 分擔即時控制任務</td></tr>
-            </tbody>
-        </table>
-    </section>
+        <!-- 15. Arm IC -->
+        <section id="arm-ic" class="section">
+            <h2>🔬 機械手臂 IC 選型分析 <span class="badge badge-new">NEW</span></h2>
+            <table>
+                <thead><tr><th>等級</th><th>主控 MCU</th><th>關節驅動 IC</th><th>通訊</th><th>代表品牌</th></tr></thead>
+                <tbody>
+                    <tr><td>工業級</td><td>Intel x86 / i.MX8</td><td>TI DRV8353 + IGBT</td><td>EtherCAT</td><td>FANUC, ABB</td></tr>
+                    <tr><td>Cobot 協作</td><td>i.MX RT1170 / AURIX</td><td>STSPIN32G4</td><td>CANopen</td><td>UR, ROKAE</td></tr>
+                    <tr style="background:rgba(76,175,80,0.15)"><td><strong>教育/研究 ✅</strong></td><td><strong>STM32H743</strong></td><td><strong>STM32G431/G474</strong></td><td><strong>FDCAN</strong></td><td><strong>你的方案！</strong></td></tr>
+                    <tr><td>DIY 入門</td><td>STM32F4 / ESP32</td><td>L6234 / DRV8313</td><td>UART</td><td>自製</td></tr>
+                </tbody>
+            </table>
+            <div class="card-grid">
+                <div class="card"><div class="card-title">⭐ STSPIN32G4（G431 整合版）</div><ul><li>STM32G431 核心 + 閘極驅動 SiP</li><li>CORDIC 加速器（FOC sin/cos）</li><li>三相閘極驅動 + Bootstrap 內建</li><li>過流/過壓硬體保護</li><li>PCB 面積 -50% → 適合量產</li><li><strong>DigiKey 台灣：NT$380/顆</strong></li></ul></div>
+                <div class="card"><div class="card-title">🛒 台灣 DigiKey 採購報價</div><ul><li>STM32H743VIT6：<strong>NT$650</strong></li><li>STM32G474RE：<strong>NT$420</strong></li><li>STM32G431：<strong>NT$280</strong></li><li>STSPIN32G4：<strong>NT$380</strong></li><li>AS5047P 磁性編碼器：<strong>NT$650</strong></li><li>JLCPCB 4層板：<strong>NT$1,200</strong></li></ul></div>
+            </div>
+        </section>
 
-    <!-- Section 11: Next Steps -->
-    <section id="next-steps" class="section">
-        <h2>🚀 下一步行動</h2>
-        <div style="background:linear-gradient(135deg,var(--accent-green),#45a049);padding:30px;border-radius:16px;text-align:center;color:white;">
-            <h3 style="margin-bottom:20px;">📅 本週內立即行動</h3>
-            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;">
-                <div>
-                    <strong>1. 下單元件</strong><br>
-                    JX 伺服 x12 + STM32H743 + JLCPCB PCB
-                </div>
-                <div>
-                    <strong>2. 環境準備</strong><br>
-                    Clone Pupper repo + STM32CubeIDE + ROS2 Humble
-                </div>
-                <div>
-                    <strong>3. 方案確認</strong><br>
-                    先跑方案 A（PWM），驗證後升方案 B（CAN）
+        <!-- 16. Next Steps -->
+        <section id="next-steps" class="section">
+            <h2>🚀 下一步行動</h2>
+            <div style="background:linear-gradient(135deg,var(--accent-green),#45a049);padding:28px;border-radius:16px;text-align:center;color:white;">
+                <h3 style="margin-bottom:20px;">📅 本週內立即行動</h3>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;">
+                    <div><strong>1. 下單元件</strong><br>G431 x6 + H743 + AS5047P → DigiKey</div>
+                    <div><strong>2. 環境準備</strong><br>STM32CubeIDE + SimpleFOC + ROS2 Humble</div>
+                    <div><strong>3. 買 uArm</strong><br>飆機器人 NT$15,000 → 拆解研究機構</div>
+                    <div><strong>4. xArm 仿真</strong><br>Clone xarm_ros2 → Gazebo 驗證 IK</div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <footer style="text-align:center;padding:40px 20px;color:var(--text-secondary);border-top:1px solid var(--border);margin-top:60px;">
-        <p>© 2026 四足機器狗工作室 | 內部機密文件 | <a href="#" style="color:var(--accent-blue);">聯絡我們</a></p>
-        <p>基於 MIT/BSD 開源專案開發 | RPi5 + STM32H743 + STM32G474 | 授權合規已確認</p>
-    </footer>
+        <footer style="text-align:center;padding:36px 20px;color:var(--text-secondary);border-top:1px solid var(--border);margin-top:50px;">
+            <p>© 2026 四足機器狗工作室 | 內部機密文件</p>
+            <p style="margin-top:6px;">RPi5 + STM32H743 + STM32G431/G474 | MIT/BSD 開源授權合規 | v3.0</p>
+        </footer>
 
-</div>
+    </div><!-- /container -->
+</div><!-- /main-wrapper -->
 
 <script>
-    // TOC Generator
-    function generateTOC() {
-        const sections = document.querySelectorAll('section[id]');
-        const tocList = document.getElementById('tocList');
-        const tocContent = document.getElementById('tocContent');
-        let html = '';
-        sections.forEach((section, index) => {
-            const h2 = section.querySelector('h2');
-            const title = h2 ? h2.textContent.replace(/NEW/g,'').trim() : '';
-            const id = section.id;
-            html += `<li><a href="#${id}">${index + 1}. ${title}</a></li>`;
+    // ===== NAV CONFIG =====
+    const navItems = [
+        { id: "background",      icon: "🎯", text: "專案背景與目標" },
+        { id: "grading",         icon: "📊", text: "技術分級選型" },
+        { id: "projects",        icon: "🔬", text: "開源專案分析" },
+        { id: "license",         icon: "⚖️",  text: "授權合規性" },
+        { id: "products",        icon: "💼", text: "商用產品線策略" },
+        { id: "tech",            icon: "⚙️",  text: "技術路線建議" },
+        { id: "st-upgrade",      icon: "🔧", text: "ST MCU 升級方案",   badge: "NEW" },
+        { id: "bom",             icon: "💰", text: "BOM 成本明細",       badge: "NEW" },
+        { id: "roadmap",         icon: "🗺️",  text: "12個月 Roadmap" },
+        { id: "risks",           icon: "⚠️",  text: "風險評估" },
+        { id: "arm-strategy",    icon: "🦾", text: "機械手臂策略",       badge: "NEW" },
+        { id: "arm-selection",   icon: "🛒", text: "飆機器人手臂選型",   badge: "NEW" },
+        { id: "foc-motor",       icon: "⚡", text: "FOC BLDC vs 傳統",   badge: "NEW" },
+        { id: "xarm-opensource", icon: "🔓", text: "xArm 開源應用",      badge: "NEW" },
+        { id: "arm-ic",          icon: "🔬", text: "機械手臂 IC 選型",   badge: "NEW" },
+        { id: "next-steps",      icon: "🚀", text: "下一步行動" },
+    ];
+
+    function buildSidebar() {
+        const nav = document.getElementById("sidebarNav");
+        let html = '<div class="nav-group-label">機器狗篇</div>';
+        navItems.slice(0, 10).forEach(item => {
+            html += `<a class="nav-item" href="#${item.id}">
+                <span class="nav-icon">${item.icon}</span>
+                <span class="nav-text">${item.text}</span>
+                ${item.badge ? `<span class="nav-badge">${item.badge}</span>` : ""}
+            </a>`;
         });
-        tocList.innerHTML = html;
-        tocContent.innerHTML = '<h3 style="color:var(--accent-blue);margin-bottom:15px;">📋 章節導覽</h3><ul style="list-style:none;">' + html + '</ul>';
+        html += '<div class="nav-divider"></div><div class="nav-group-label">機械手臂篇</div>';
+        navItems.slice(10).forEach(item => {
+            html += `<a class="nav-item" href="#${item.id}">
+                <span class="nav-icon">${item.icon}</span>
+                <span class="nav-text">${item.text}</span>
+                ${item.badge ? `<span class="nav-badge">${item.badge}</span>` : ""}
+            </a>`;
+        });
+        nav.innerHTML = html;
     }
 
-    // Sidebar Toggle
-    function toggleSidebar() {
-        document.getElementById('sidebar').classList.toggle('active');
+    // Active nav highlight on scroll
+    function updateActiveNav() {
+        const sections = document.querySelectorAll("section[id]");
+        const navLinks = document.querySelectorAll(".nav-item");
+        let current = "";
+        sections.forEach(sec => {
+            if (window.scrollY >= sec.offsetTop - 120) current = sec.id;
+        });
+        navLinks.forEach(link => {
+            link.classList.toggle("active", link.getAttribute("href") === "#" + current);
+        });
     }
 
-    // Smooth Scroll
-    document.addEventListener('click', function(e) {
-        const a = e.target.closest('a[href^="#"]');
-        if (a) {
-            e.preventDefault();
-            const target = document.querySelector(a.getAttribute('href'));
-            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            const sidebar = document.getElementById('sidebar');
-            if (sidebar.classList.contains('active')) sidebar.classList.remove('active');
-        }
+    // Smooth scroll
+    document.addEventListener("click", e => {
+        const a = e.target.closest("a[href^='#']");
+        if (!a) return;
+        e.preventDefault();
+        const t = document.querySelector(a.getAttribute("href"));
+        if (t) t.scrollIntoView({ behavior: "smooth", block: "start" });
+        if (window.innerWidth <= 900) document.getElementById("leftSidebar").classList.remove("open");
     });
 
-    // Progress Bar
+    // Progress bar
     function updateProgress() {
-        const scrollTop = window.pageYOffset;
-        const docHeight = document.body.scrollHeight - window.innerHeight;
-        const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-        document.getElementById('progressFill').style.width = progress + '%';
+        const p = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+        document.getElementById("progressFill").style.width = p + "%";
     }
 
-    // Intersection Observer
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) entry.target.style.animationPlayState = 'running';
-        });
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    // Mobile sidebar
+    function toggleMobileSidebar() {
+        document.getElementById("leftSidebar").classList.toggle("open");
+    }
 
-    document.querySelectorAll('.section').forEach(s => observer.observe(s));
+    // Intersection observer for animations
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.style.animationPlayState = "running"; });
+    }, { threshold: 0.08 });
+    document.querySelectorAll(".section").forEach(s => observer.observe(s));
 
     // Checkbox persistence
-    document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-        if (localStorage.getItem(cb.id) === 'true') cb.checked = true;
-        cb.addEventListener('change', () => localStorage.setItem(cb.id, cb.checked));
+    document.querySelectorAll("input[type=checkbox]").forEach(cb => {
+        if (localStorage.getItem(cb.id) === "true") cb.checked = true;
+        cb.addEventListener("change", () => localStorage.setItem(cb.id, cb.checked));
     });
 
-    window.addEventListener('load', () => { generateTOC(); updateProgress(); });
-    window.addEventListener('scroll', updateProgress);
+    window.addEventListener("scroll", () => { updateProgress(); updateActiveNav(); });
+    window.addEventListener("load", () => { buildSidebar(); updateProgress(); updateActiveNav(); });
 </script>
 </body>
 </html>
